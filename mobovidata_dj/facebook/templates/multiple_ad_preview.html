@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row" ng-controller="FacebookMultipleAdPreviewController">
+        <h1>Magento multiple Facebook ad creator </h1>
+
+        <div class="col-sm-10">
+            <table class="table-striped table-bordered table-responsive table" style="width:100%;">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>More&nbsp;Info&nbsp;</th>
+                        <th>Campaign&nbsp;</th>
+                        <th>Ad&nbsp;Set&nbsp;Name&nbsp;</th>
+                        <th>Ad&nbsp;Name&nbsp;</th>
+                        <th>Brand&nbsp;Model&nbsp;Category&nbsp;ID&nbsp;</th>
+                        <th>Upload&nbsp;</th>
+                   </tr>
+                </thead>
+                <tr ng-repeat-start="ad in facebook_ads">
+                    <td>
+                      <button ng-if="ad.expanded" ng-click="ad.expanded = false">
+                          <i class="fa fa-minus"></i>
+                      </button>
+                      <button ng-if="!ad.expanded" ng-click="ad.expanded = true">
+                          <i class="fa fa-plus"></i>
+                      </button>
+                    </td>
+                    <td>[[ad.campaign_name]]</td>
+                    <td>[[ad.ad_set_name]]</td>
+                    <td>[[ad.ad_name]]</td>
+                    <td>[[ad.brand_model_category_id]]</td>
+                    <td>
+                        <form action="{% url 'facebook:ad-preview' %}" method="post" target="_blank">
+                        {% csrf_token %}
+                            <input type="hidden" ng-value="ad.brand_model_category_id" name="category_id">
+                            <input type="hidden" ng-value="ad.product_id_1" name="products[]">
+                            <input type="hidden" ng-value="ad.product_id_2" name="products[]">
+                            <input type="hidden" ng-value="ad.product_id_3" name="products[]">
+                            <input type="hidden" ng-value="ad.product_id_4" name="products[]">
+                            <input type="hidden" ng-value="ad.product_id_5" name="products[]">
+                            <input type="hidden" ng-value="ad.product_id_6" name="products[]">
+                            <input type="hidden" ng-value="ad.product_id_7" name="products[]">
+                            <input type="hidden" ng-value="ad.product_id_8" name="products[]">
+                            <input type="hidden" ng-value="ad.product_id_9" name="products[]">
+                            <input type="hidden" ng-value="ad.product_id_10" name="products[]">
+                            <input type="hidden" ng-value="ad.campaign_id" name="campaign_id">
+                            <input type="hidden" ng-value="ad.campaign_name" name="campaign_name">
+                            <input type="hidden" ng-value="ad.ad_set_id" name="ad_set_id">
+                            <input type="hidden" ng-value="ad.ad_set_name" name="ad_set_name">
+                            <input type="hidden" ng-value="ad.ad_name" name="ad_name">
+                            <input type="hidden" ng-value="ad.ad_message" name="ad_message">
+                            <input type="hidden" ng-value="ad.additional_url_parameters" name="ad_additional_url_parameters">
+                            <input type="hidden" ng-value="ad.facebook_profile_id" name="ad_facebook_profile_id">
+                            <input type="hidden" value="{{ fb_credentials }}" name="fb_credentials">
+                            <button type="submit" class="right btn text-white"
+                                    ng-class="ad.uploaded ? 'tango-tangerine' : 'emerald'"
+                                    ng-click="ad.uploaded = true">
+                                <i class="fa fa-upload"></i><span ng-show="ad.uploaded">&nbsp;Retry</span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;1&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_1]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;2&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_2]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;3&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_3]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;4&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_4]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;5&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_5]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;6&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_6]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;7&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_7]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;8&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_8]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;9&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_9]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Product&nbsp;ID&nbsp;10&nbsp;</th>
+                    <td colspan="4">[[ad.product_id_10]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Ad&nbsp;Message&nbsp;</th>
+                    <td colspan="4">[[ad.ad_message]]</td>
+                </tr>
+                <tr ng-if="ad.expanded">
+                    <th></th>
+                    <th>Additional&nbsp;URL&nbsp;parameters&nbsp;</th>
+                    <td colspan="4">[[ad.additional_url_parameters]]</td>
+                </tr>
+                <tr ng-if="ad.expanded" ng-repeat-end="">
+                    <th></th>
+                    <th>Facebook&nbsp;profile&nbsp;ID&nbsp;</th>
+                    <td colspan="4">[[ad.facebook_profile_id]]</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        window.modjento_data = {};
+        window.modjento_data.facebook_ads = {{ facebook_ads|safe }};
+    </script>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+//@font-face {
+//  font-family: 'neuzeit';
+//  src: url('../fonts/urw_neuzeitgrotesktot-reg-webfont.ttf');
+//  src: local('../fonts/urw_neuzeitgrotesktot-reg-webfont.ttf')
+//}
+
+
+@font-face {
+  font-family: 'neuzeit';
+  font-style: normal;
+  font-weight: 400;
+  src: local('neuzeit'),
+       url('../fonts/urw_neuzeitgrotesktot-reg-webfont.ttf') format('ttf'), // ff, ch, Android 5
+       url('../fonts/urw_neuzeitgrotesktot-reg-webfont.woff') format('woff'), // ff, ch, Android 5
+       url('../fonts/urw_neuzeitgrotesktot-reg-webfont.svg') format('svg'); // ff, ch, Android 5
+}
+
+@font-face {
+  font-family: 'neuzeit';
+  font-style: normal;
+  font-weight: bold;
+  src: local('neuzeit'),
+       url('../fonts/urw_neuzeitgrotesktot-bol-webfont.ttf') format('ttf'), // ff, ch, Android 5
+       url('../fonts/urw_neuzeitgrotesktot-bol-webfont.woff') format('woff'), // ff, ch, Android 5
+       url('../fonts/urw_neuzeitgrotesktot-bol-webfont.svg') format('svg'); // ff, ch, Android 5
+}
+
+@font-face {
+  font-family: 'avenir';
+  font-style: normal;
+  font-weight: 400;
+  src: local('avenir'),
+       url('../fonts/avenir_medium.ttf') format('ttf'), // ff, ch, Android 5
+       url('../fonts/avenir_medium.woff') format('woff'), // ff, ch, Android 5
+       url('../fonts/avenir_medium.svg') format('svg'); // ff, ch, Android 5
+}
+
+@font-face {
+  font-family: 'freightsans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('freightsans'),
+       url('../fonts/FreightSansProBook-Regular_gdi.ttf') format('ttf'), // ff, ch, Android 5
+       url('../fonts/FreightSansProBook-Regular_gdi.woff') format('woff'), // ff, ch, Android 5
+       url('../fonts/FreightSansProBook-Regular_gdi.svg') format('svg'); // ff, ch, Android 5
+}
+
+@font-face {
+  font-family: 'freightsans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('freightsans'),
+       url('../fonts/FreightSansProSemibold-Regular_gdi.ttf') format('ttf'), // ff, ch, Android 5
+       url('../fonts/FreightSansProSemibold-Regular_gdi.woff') format('woff'), // ff, ch, Android 5
+       url('../fonts/FreightSansProSemibold-Regular_gdi.svg') format('svg'); // ff, ch, Android 5
+}
+
+@font-face {
+  font-family: 'inconsolata';
+  font-style: normal;
+  font-weight: 400;
+  src: local('inconsolata'),
+       url('../fonts/Inconsolata-webfont.ttf') format('ttf'), // ff, ch, Android 5
+       url('../fonts/Inconsolata-webfont.woff') format('woff'), // ff, ch, Android 5
+       url('../fonts/Inconsolata-webfont.svg') format('svg'); // ff, ch, Android 5
+}
+
+.freightsans {
+  font-family: 'freightsans', sans-serif;
+}
+
+.neuzeit {
+  font-family: 'neuzeit', sans-serif;
+}
+
+.avenir {
+  font-family: 'avenir', sans-serif;
+}
+
+.inconsolata {
+  font-family: 'inconsolata', sans-serif;
+}

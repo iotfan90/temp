@@ -1,0 +1,12 @@
+es.api.enabled: true
+# Crate Configuration
+
+# Data Paths
+path:
+  logs: /data/log
+  data: /data/data
+  blobs: /data/blobs
+
+bootstrap.mlockall: true
+stats.enabled: true
+

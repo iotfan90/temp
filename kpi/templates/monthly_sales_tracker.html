@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<div ng-controller="KpiController">
+<div class="row">
+    <div class="col-sm-12">
+        <h1>&nbsp;&nbsp;Monthly Sales Tracker</h1>
+        <hr/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1 col-sm-12">
+        <canvas id="line" class="chart chart-line" chart-data="chartData" chart-labels="chartLabels"
+                chart-legend="true" chart-series="chartSeries" chart-options="chartOptions">
+        </canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped table-bordered table-sm">
+        <thead class="thead-default">
+            <tr>
+                <th class="text-xs-center">Month</th>
+                <th class="text-xs-center">Orders</th>
+                <th class="text-xs-center">Net</th>
+                <th class="text-xs-center">Gross margin</th>
+                <th>&nbsp;</th>
+                <th class="text-xs-center">Orders (non-CO)</th>
+                <th class="text-xs-center">Net (non-CO)</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for x in net_sales %}
+            <tr>
+                <td>{{ x.period }}</td>
+                <td class="text-xs-right">{{ x.total_orders | intcomma }}</td>
+                <td class="text-xs-right">{{ x.net_sales | floatformat:2 | intcomma }}</td>
+                <td class="text-xs-right">{{ x.gross_margin | floatformat:1 | intcomma }}%</td>
+                <td>&nbsp;</td>
+                <td class="text-xs-right">{{ x.other_total_orders | intcomma }}</td>
+                <td class="text-xs-right">{{ x.other_net_sales | floatformat:2 | intcomma }}</td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td colspan="7" class="text-xs-center"><i>*—totals exclude tax, cancellations and refunds</i></td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    window.dice_data = {};
+    window.dice_data.chartData = {{ net_sales_json | safe }};
+</script>
+</div>
+{% endblock %}

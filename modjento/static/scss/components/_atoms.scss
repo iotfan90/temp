@@ -1,0 +1,76 @@
+.clickable {
+  cursor: pointer;
+}
+
+.expand {
+  width: 100%;
+}
+
+.small-bottom {
+  padding-bottom: 0.5rem;
+}
+
+.search-no-padding {
+  padding-left: 0;
+  padding-right: 0;
+
+}
+
+.input-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.nav-push-down {
+  padding-top: 0.4em;
+}
+
+.no-border {
+  border: None;
+}
+
+.bottom-center-purple {
+  top: 130px;
+  bottom: 130px;
+  left: 50px;
+  position: relative;
+  border-top: 30px solid #b565a7;
+  border-left: 30px solid #b565a7;
+  overflow: visible;
+  z-index: 10; }
+
+.bottom-center {
+  top: 130px;
+  bottom: 130px;
+  left: 50px;
+  position: relative;
+  border-left-width: 30px;
+  border-top-width: 30px;
+  border-top-style: solid;
+  border-left-style: solid;
+  overflow: visible;
+  z-index: 10;
+}
+
+.bottom-center-text {
+  top: -30px;
+  font-size: 11px;
+  width: 100%;
+  left:-12px;
+  color: white;
+  text-align: center;
+  display: inline;
+  position: relative;
+}
+
+.triangle-up-text {
+  top: -80px;
+  color: white;
+  text-align: left;
+  display: inline;
+  position: absolute; }
+
+.container-no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}

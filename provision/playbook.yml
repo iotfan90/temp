@@ -1,0 +1,16 @@
+---
+- hosts: staging
+  remote_user: root
+  roles:
+    - role: staging
+    - role: smtp
+      exim4_dc_use_split_config: 'true'
+      exim4_dc_eximconfig_configtype: 'internet'
+
+#- hosts: production
+#  remote_user: root
+#  roles:
+#    - role: production
+#    - role: smtp
+#      exim4_dc_use_split_config: 'true'
+#      exim4_dc_eximconfig_configtype: 'internet'

@@ -1,0 +1,135 @@
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### SublimeText ###
+# cache files for sublime text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# workspace files are user-specific
+*.sublime-workspace
+
+# project files should be checked into the repository, unless a significant
+# proportion of contributors will probably not be using SublimeText
+# *.sublime-project
+
+# Ipython notebooks
+*.ipynb
+qa_notebooks/
+qa_notebooks/*
+
+
+# sftp configuration file
+sftp-config.json
+
+# Basics
+*.py[cod]
+__pycache__
+
+# Logs
+*.log
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+htmlcov
+
+# Translations
+*.mo
+*.pot
+
+# Pycharm
+.idea
+
+# Vim
+
+*~
+*.swp
+*.swo
+
+# npm
+node_modules/
+
+# Compass
+.sass-cache
+
+# virtual environments
+.env
+env
+
+# User-uploaded media
+mobovidata_dj/media/
+
+# Hitch directory
+tests/.hitch
+
+# MailHog binary
+mailhog
+
+# virtualenv
+pip-selfcheck.json
+.Python
+bin
+include
+lib
+
+# share folder installed by some pip components
+share/
+config/settings/local_overrides.py
+
+celerybeat.pid
+celerybeat-schedule*
+
+# local settings
+config/settings/local.py
+*local.py
+
+# Redis DB
+dump.rdb
+
+# DB dump files
+*_fixture.json
+
+# Zaius integration CSV
+zaius_customers.csv
+
+# environment config file (auto generated, shouldn't be checked in)
+config/settings/environment.py
+
+data/
+
+# secret environment variables
+hushhush/
+hushhush
+hush.py
+
+/static/
+/static/*
+
+/media/
+/media/*
+
+# Feed files
+/feed/*.txt
+modjento/static/scss/modjento.css
+modjento/static/scss/modjento.css.map
+
+# Weird files installed by 3rd party packages
+src/
+man/
+
+/provision/crate_setup/crate-0.55.2/*
+
+#*.csv
+*.json
+*.txt
+*.zip
+
+!mobovidata_dj/feeds/static/separate_fb_feed.csv
+
+_josh_shp_api/

@@ -1,0 +1,250 @@
+{% extends "base.html"%}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-9">
+                    <h1>Sales Report</h1>
+                </div>
+            </div>
+            <div class="row" ng-controller="SalesOrderController">
+                <div class="row" id="products">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-xs-9 col-md-2">
+                                <button type="button" class="right btn marsala text-white"
+                                    ng-disabled="refreshReportProcessing" ng-click="refreshReport()">
+                                    <i class="fa fa-refresh"></i>&nbsp;Refresh report
+                                </button>
+                                <div class="alert alert-info text-center" ng-if="refreshReportProcessing">
+                                    <i class="fa fa-spin fa-gear"></i>&nbsp;Refreshing report
+                                </div>
+                                <div class="alert emerald text-center text-white" ng-if="refreshReportFinished && refreshReportSuccess">
+                                    <i class="fa fa-check-circle"></i>&nbsp;[[refreshReportMessage]]
+                                </div>
+                                <div class="alert alert-error text-center text-white" ng-if="refreshReportFinished && !refreshReportSuccess">
+                                    <i class="fa fa-bug"></i>&nbsp;[[refreshReportMessage]]
+                                </div>
+                            </div>
+
+                            <div class="col-xs-3">
+                                <form action="{% url 'sales:sales-report-csv-export' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="right btn marsala text-white" type="submit"><i
+                                            class="fa fa-download"></i>&nbsp;CSV
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="col-xs-6">
+                                <span>Last updated at: {{ last_updated_dt }}</span>
+                            </div>
+                            <div class="col-xs-12">
+                                <form ng-submit="search()">
+                                    <div class="row small-bottom">
+                                        <div class="col-sm-4">
+                                            <label for="txtProduct1" class="col-sm-4 form-control-label text-right">Product Id</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" name="searchPid" id="srch-pid" ng-model="searchPid">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label for="txtProduct2" class="col-sm-4 form-control-label text-right">Product Sku</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" name="searchSku" id="srch-sku" ng-model="searchSku">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button class="btn marsala text-white" type="submit">
+                                                <i class="fa fa-search" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="clickable" ng-click="addSort('product_id')">
+                                      Product&nbsp;ID&nbsp;
+                                        <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-product_id', 'fa-angle-up': currentSort == 'product_id' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('sku')">
+                                      Product&nbsp;Sku&nbsp;
+                                        <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-sku', 'fa-angle-up': currentSort == 'sku' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('name')">
+                                      Name&nbsp;
+                                        <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-name', 'fa-angle-up': currentSort == 'name' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('qty')">
+                                      Inventory&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-qty', 'fa-angle-up': currentSort == 'qty' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('is_in_stock')">
+                                      In&nbsp;Stock&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-is_in_stock', 'fa-angle-up': currentSort == 'is_in_stock' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('back_orders')">
+                                      Back&nbsp;Orders&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-back_orders', 'fa-angle-up': currentSort == 'back_orders' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('base_cost')">
+                                      COGS&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-base_cost', 'fa-angle-up': currentSort == 'base_cost' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('price')">
+                                      Price&nbsp;
+                                      <i cla&nbsp;ss='fa' ng-class="{ 'fa-angle-down': currentSort=='-price', 'fa-angle-up': currentSort == 'price' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('margin')">
+                                      Margin&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-margin', 'fa-angle-up': currentSort == 'margin' }"></i>
+                                    </th>
+                                    <th>Image&nbsp;</th>
+                                    <th class="clickable" ng-click="addSort('attribute_set')">
+                                      Type&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-attribute_set', 'fa-angle-up': currentSort == 'attribute_set' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('category')">
+                                      Model&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-category', 'fa-angle-up': currentSort == 'category' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_1')">
+                                      Previous&nbsp;Day&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_1', 'fa-angle-up': currentSort == 'day_1' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_3')">
+                                      Last&nbsp;3&nbsp;Days&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_3', 'fa-angle-up': currentSort == 'day_3' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_7')">
+                                      Last&nbsp;7&nbsp;Days&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_7', 'fa-angle-up': currentSort == 'day_7' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_14')">
+                                      Last&nbsp;14&nbsp;Days&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_14', 'fa-angle-up': currentSort == 'day_14' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_30')">
+                                      Last&nbsp;30&nbsp;Days&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_30', 'fa-angle-up': currentSort == 'day_30' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_90')">
+                                      Last&nbsp;90&nbsp;Days&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_90', 'fa-angle-up': currentSort == 'day_90' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_7_avg')">
+                                      7&nbsp;Day&nbsp;Avg&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_7_avg', 'fa-angle-up': currentSort == 'day_7_avg' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_3_avg')">
+                                      3&nbsp;Day&nbsp;Avg&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_3_avg', 'fa-angle-up': currentSort == 'day_3_avg' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_7_left')">
+                                      Days&nbsp;of&nbsp;Inventory&nbsp;Left(7)&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_7_left', 'fa-angle-up': currentSort == 'day_7_left' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('day_3_left')">
+                                      Days&nbsp;of&nbsp;Inventory&nbsp;Left(3)&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-day_3_left', 'fa-angle-up': currentSort == 'day_3_left' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('run_rate_7')">
+                                      Run&nbsp;Rate(7)&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-run_rate_7', 'fa-angle-up': currentSort == 'run_rate_7' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('run_rate_14')">
+                                      Run&nbsp;Rate(14)&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-run_rate_14', 'fa-angle-up': currentSort == 'run_rate_14 ' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('run_rate_30')">
+                                      Run&nbsp;Rate(30)&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-run_rate_30', 'fa-angle-up': currentSort == 'run_rate_30' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('run_rate_90')">
+                                      Run&nbsp;Rate(90)&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-run_rate_90', 'fa-angle-up': currentSort == 'run_rate_90' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('avg_left')">
+                                      Days&nbsp;of&nbsp;Inventory&nbsp;Left(3,7)&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-avg_left', 'fa-angle-up': currentSort == 'avg_left' }"></i>
+                                    </th>
+                                    <th class="clickable" ng-click="addSort('avg_run_rate')">
+                                      Average&nbsp;Run&nbsp;Rate(7,14,30,90)&nbsp;
+                                      <i class='fa' ng-class="{ 'fa-angle-down': currentSort=='-avg_run_rate', 'fa-angle-up': currentSort == 'run_rate_90' }"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="product in currentPage" ng-if="currentPage.length" class="small-btn">
+                                    <td>[[product.product_id]]</td>
+                                    <td>[[product.sku]]</td>
+                                    <td>[[product.name]]</td>
+                                    <td>[[product.qty]]</td>
+                                    <td>[[product.is_in_stock]]</td>
+                                    <td>[[product.back_orders]]</td>
+                                    <td>[[product.base_cost]]</td>
+                                    <td>[[product.price]]</td>
+                                    <td>[[product.margin]]</td>
+                                    <td><img ng-src="[[product.image]]" width="130" height="130" /></td>
+                                    <td>[[product.attribute_set]]</td>
+                                    <td>[[product.category]]</td>
+                                    <td>[[product.day_1]]</td>
+                                    <td>[[product.day_3]]</td>
+                                    <td>[[product.day_7]]</td>
+                                    <td>[[product.day_14]]</td>
+                                    <td>[[product.day_30]]</td>
+                                    <td>[[product.day_90]]</td>
+                                    <td>[[product.day_7_avg]]</td>
+                                    <td>[[product.day_3_avg]]</td>
+                                    <td>[[product.day_7_left]]</td>
+                                    <td>[[product.day_3_left]]</td>
+                                    <td>[[product.run_rate_7]]</td>
+                                    <td>[[product.run_rate_14]]</td>
+                                    <td>[[product.run_rate_30]]</td>
+                                    <td>[[product.run_rate_90]]</td>
+                                    <td>[[product.avg_left]]</td>
+                                    <td>[[product.avg_run_rate]]</td>
+                                </tr>
+                                <tr ng-if="pageProducts.length == 0 && !loading">
+                                    <td colspan="9">
+                                        No Products Found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <nav>
+                          <ul class="pagination pagination-lg">
+                            <li ng-class="pageData.current==1 ? 'disabled' : 'enabled'" class="page-item">
+                              <a ng-class="pageData.current==1 ? 'disabled' : 'enabled'" class="page-link"
+                                 ng-href="[[ pageData.current==1 ? '' : '?page=1' ]]" aria-label="First">
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                            </li>
+                            <li ng-repeat="p in ::pageData.pages" class="page-item" ng-class="p==pageData.current ? 'active' : 'not-active'">
+                              <a class="page-link" ng-href="[[ (p==pageData.current) ? '' : '?page=' + p ]]" >[[ p ]]</a>
+                            </li>
+                            <li ng-class="pageData.current==pageData.last_page ? 'disabled' : 'enabled'" class="page-item">
+                              <a ng-class="pageData.current==pageData.last_page ? 'disabled' : 'enabled'" class="page-link"
+                                 ng-href="[[ pageData.current==pageData.last_page ? '' : '?page='+pageData.last_page ]]" aria-label="Next">
+                                <span aria-hidden="true">»</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    window.salesReportData = {};
+    window.salesReportData.pageProducts = {{ page_products|safe }};
+    window.currentSort = '{{ st_sort }}';
+    window.refreshReportEndpoint = '{% url 'sales:sales-report' %}';
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Magento Facebook ad creator</h1>
+        <hr/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <form name="apiSelectorFrm" id="apiSelectorFrm" action="{% url 'facebook:ad-creator' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="selAPICredentials" class="col-sm-2 form-control-label text-right">FB API Credentials</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="APICredentials" name="APICredentials">
+                        {% for option in fb_credentials %}
+                            <option value="{{ option.id }}">{{ option.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button type="submit" class="btn serenity">Select API Credentials</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

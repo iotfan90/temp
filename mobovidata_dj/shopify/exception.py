@@ -1,0 +1,2 @@
+class ShopifyTransactionException(Exception):
+    pass

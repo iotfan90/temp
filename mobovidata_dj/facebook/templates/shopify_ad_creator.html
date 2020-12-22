@@ -1,0 +1,121 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Shopify Facebook ad creator</h1>
+        <hr/>
+    </div>
+</div>
+<div class="row" ng-controller="FacebookShopifyAdCreatorController">
+    <div class="col-sm-12">
+        <form onkeypress="return event.keyCode != 13;" name="productForm" id="frmProduct" action="{% url 'facebook:shopify-ad-preview' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="selCampaign" class="col-sm-2 form-control-label text-right">Campaign</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="selCampaign"
+                            ng-options="x as x.name for x in campaigns"
+                            ng-model="data.campaign"
+                            ng-change="updateAdSets()">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="selAdSet" class="col-sm-2 form-control-label text-right">Ad Set</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="selAdSet"
+                            ng-options="x as x.name for x in ad_sets"
+                            ng-model="data.ad_set"
+                            ng-change="savePreferences()">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="txtHandle" class="col-sm-2 form-control-label text-right">Shopify collection handle</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="txtHandle" name="handle" placeholder="Shopify collection handle">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtProduct1" class="col-sm-2 form-control-label text-right">SKU #1</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU1" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtSKU2" class="col-sm-2 form-control-label text-right">SKU #2</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU2" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtSKU3" class="col-sm-2 form-control-label text-right">SKU #3</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU3" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtSKU4" class="col-sm-2 form-control-label text-right">SKU #4</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU4" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtSKU5" class="col-sm-2 form-control-label text-right">SKU #5</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU5" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtSKU6" class="col-sm-2 form-control-label text-right">SKU #6</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU6" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtSKU7" class="col-sm-2 form-control-label text-right">SKU #7</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU7" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtSKU8" class="col-sm-2 form-control-label text-right">SKU #8</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU8" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtSKU9" class="col-sm-2 form-control-label text-right">SKU #9</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU9" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtSKU10" class="col-sm-2 form-control-label text-right">SKU #10</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="txtSKU10" name="sku[]" placeholder="SKU">
+                </div>
+            </div>
+            <input type="hidden" ng-value="data.campaign.campaign_id" name="campaign_id">
+            <input type="hidden" ng-value="data.campaign.name" name="campaign_name">
+            <input type="hidden" ng-value="data.ad_set_id" name="ad_set_id">
+            <input type="hidden" ng-value="data.ad_set_name" name="ad_set_name">
+            <input type="hidden" ng-value="data.fb_credentials" name="fb_credentials">
+            <input type="hidden" ng-value="data.store" name="store">
+            <div class="form-group row">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button type="button" class="btn serenity" ng-click="submitData()">Preview ad</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    window.modjento_data = {};
+    window.modjento_data.campaigns = {{ campaigns|safe }};
+    window.modjento_data.ad_sets = {{ ad_sets|safe }};
+    window.modjento_data.fb_credentials = {{ fb_credentials|safe }};
+    window.modjento_data.store = {{ store|safe }};
+</script>
+{% endblock %}

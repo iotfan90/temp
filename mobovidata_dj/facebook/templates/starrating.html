@@ -1,0 +1,10 @@
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+<div class="star-ratings">
+    <i class="fa fw" ng-class="::{'fa-star rating_yellow': ratingValue >= 1, 'fa-star-half-full rating_yellow': ratingValue > 0 && ratingValue < 1, 'fa-star-o ashes_of_roses': ratingValue == 0}"></i>
+    <i class="fa fw" ng-class="::{'fa-star rating_yellow': ratingValue >= 2, 'fa-star-half-full rating_yellow': ratingValue > 1 && ratingValue < 2, 'fa-star-o ashes_of_roses': ratingValue <= 1}"></i>
+    <i class="fa fw" ng-class="::{'fa-star rating_yellow': ratingValue >= 3, 'fa-star-half-full rating_yellow': ratingValue > 2 && ratingValue < 3, 'fa-star-o ashes_of_roses': ratingValue <= 2}"></i>
+    <i class="fa fw" ng-class="::{'fa-star rating_yellow': ratingValue >= 4, 'fa-star-half-full rating_yellow': ratingValue > 3 && ratingValue < 4, 'fa-star-o ashes_of_roses': ratingValue <= 3}"></i>
+    <i class="fa fw" ng-class="::{'fa-star rating_yellow': ratingValue == 5, 'fa-star-half-full rating_yellow': ratingValue > 4 && ratingValue < 5, 'fa-star-o ashes_of_roses': ratingValue <= 4}"></i>
+</div>
+{#{% endblock %}#}

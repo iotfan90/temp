@@ -1,0 +1,177 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Magento Facebook ad creator—Preview ad</h1>
+        <hr/>
+    </div>
+</div>
+{% if not b_error %}
+<div ng-controller="FacebookPreviewController">
+<form name="previewForm" id="frmPreview" >
+{% csrf_token %}
+<div class="row">
+    <div class="col-sm-12">
+        <label class="c-checkbox">
+            <input type="checkbox" ng-model="adData.is_active"> Turn on ad
+        </label>
+        <br/>
+        <label for="txtAdName" class="form-control-label">Ad name</label>
+        <input type="text" class="form-control" name="ad_name"
+               ng-model="adData.name" ng-change="updateBmc()"
+               id="txtAdName" placeholder="Enter a unique ad name here">
+        <label for="txtAdMessage" class="form-control-label">Ad message</label>
+        <input type="text" class="form-control"
+               ng-model="adData.message"
+               name="ad_message" id="txtAdMessage"
+               placeholder="Enter the top-level ad message here">
+        <label for="bmcUrl" class="form-control-label">See More Link</label>
+        <br />
+        <a ng-href="[[ adData.bmc_url ]]" target="_blank">[[ adData.bmc_url ]]</a><br>
+        <input type="text" class="form-control" ng-model="adData.bmc_url" placeholder="Enter a new brand model category url">
+        <br/>
+    </div>
+    <div class="col-sm-4" ng-repeat="x in ::adData.products track by $index">
+        <div class="card">
+            <div class="card-block">
+                <div class="alert rose-quartz" ng-if="x.loading">
+                    <span class="text-center"><i class="fa fa-spin fa-gear"></i>&nbsp;[[ x.loading ]]</span>
+                </div>
+                <div class="card-text col-sm-10 col-sm-offset-1" data-index="[[ $index ]]" data-product-id="[[ ::x.entity_id ]]">
+                    <div style="position: relative" ng-repeat="image in ::x.images track by $index">
+                        <div style="position: absolute;" class="triangle-up-left"
+                             ng-style="{'border-top-color': x.color}" ng-show="x.add_banner">
+                            <p class="triangle-up-text">[[ x.percentage ]]</p>
+                        </div>
+                        <div style="position: absolute" class="bottom-center"
+                              ng-style="{'border-top-color': x.color, 'border-left-color': x.color}"
+                              ng-show="x.add_shop_now">
+                          <p class="bottom-center-text">SHOP&nbsp;NOW</p>
+                        </div>
+                        <div style="position: absolute; margin-top:35px; color:transparent" class="bottom-center"
+                              ng-show="x.show_stars">
+                          <p class="bottom-center-text" ng-style="{'color': x.star_color}">★★★★★</p>
+                        </div>
+                        <img height="auto" width="auto" style="max-height: 200px; max-width: 100%;" src="" ng-src="[[ image ]]" />
+                    </div>
+                </div>
+                <label class="form-control-label">Qty:</label>
+                <input class="form-control" disabled type="text" ng-model="x.qty" >
+                <label class="form-control-label">Name:</label>
+                <input class="form-control" type="text" ng-model="x.name" >
+{#                <label class="form-control-label">Description:</label>#}
+{#                <select class="c-select form-control" ng-model="x.description" ng-options="value as value for (key, value) in x.description_options"></select>#}
+                <label class="form-control-label">Description:</label>
+                <input class="form-control" type="text" ng-model="x.description" >
+
+                <label class="form-control-label">Link:</label>
+                <input type="text" class="form-control" ng-model="x.link" placeholder="Enter a new product link">
+                <a ng-href="[[ x.link ]]" target="_blank">Preview link</a>
+                <div>
+                <label class="form-control-label">Banner Color:</label>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <input type="color" ng-model="x.color">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" ng-model="x.color">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                <label class="form-control-label">Stars Color:</label>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <input type="color" ng-model="x.star_color">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" ng-model="x.star_color">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="c-checkbox">
+                        <input type="checkbox" ng-model="x.add_banner" class="image-banner"> Show sale banner
+                    </label>
+                </div>
+                <div>
+                    <label class="c-checkbox">
+                        <input type="checkbox" ng-model="x.add_shop_now" class="image-banner"> Show shop now badge
+                    </label>
+                </div>
+                <div>
+                    <label class="c-checkbox">
+                        <input type="checkbox" ng-model="x.show_stars" class="image-banner"> Show stars
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+        <input type="hidden" ng-model="adData.bmcUrl" name="bmcUrl" id="bmcUrl">
+        <button ng-disabled="loading" class="expand btn btn-block serenity" type="button" ng-click="uploadAd()">Upload</button>
+    </div>
+</div>
+<div class="row" ng-if="!adData.name && submitted">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert alert-info text-center">
+            Please provide a name for the ad
+        </div>
+    </div>
+</div>
+<div class="row" ng-if="loading">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert alert-info text-center">
+            <i class="fa fa-spin fa-gear"></i>&nbsp;[[ loading ]]
+        </div>
+    </div>
+</div>
+<div class="row" ng-if="finished && success">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert emerald text-center text-white">
+            <i class="fa fa-check-circle"></i>&nbsp;Successfully created ad
+        </div>
+    </div>
+</div>
+<div class="row" ng-if="finished && !success">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert tango-tangerine text-center text-white">
+            <i class="fa fa-check-circle"></i>&nbsp;[[ message ]]
+        </div>
+    </div>
+</div>
+</form>
+
+<br />
+<script>
+    window.modjento_data = {};
+    window.modjento_data.campaignId = '{{ st_campaign_id }}';
+    window.modjento_data.campaignName = '{{ st_campaign_name }}';
+    window.modjento_data.adSetId = '{{ st_ad_set_id }}';
+    window.modjento_data.adSetName = '{{ st_ad_set_name }}';
+    window.modjento_data.products = {{ st_product_data|safe }};
+    window.modjento_data.categoryId = {{ st_category_id|safe }};
+    window.modjento_data.imageUploadEndpoint = '{% url 'facebook:image-upload' %}';
+    window.modjento_data.adUploadEndpoint = '{% url 'facebook:ad-upload' %}';
+    window.modjento_data.bmcUrl = '{{ st_bmc_url|safe }}';
+    window.modjento_data.ad_name = '{{ ad_name }}';
+    window.modjento_data.ad_message = "{{ ad_message|safe }}";
+    window.modjento_data.fb_credentials = {{ fb_credentials|safe }};
+</script>
+</div> <!-- end ng-controller=FacebookPreviewController -->
+{% else %}
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert marsala text-white">
+            There was an error with the values that were submitted.
+            {{ st_error_message }}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

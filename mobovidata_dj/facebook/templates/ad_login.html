@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{%  block content %}
+<div class ="row">
+    <div class="col-sm-12">
+        <h1>Facebook Login</h1>
+        <hr/>
+    </div>
+</div>
+<div ng-controller="FacebookLoginController">
+    <div class="col-sm-12">
+            {% csrf_token %}
+            <div class="row ">
+                <div class="col-sm-4">
+                  <button id="facebook-login" ng-click="fbLogin()"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i>Login</button>
+                </div>
+                <div class="col-sm-4" id="status">
+                </div>
+                <div class="col-sm-4" ng-if="loading">
+                    <span class="text-center"><i class="fa fa-spin fa-gear"></i>&nbsp;Redirecting to ad creator page</span>
+                </div>
+            </div>
+    </div>
+</div>
+<script>
+    window.facebook_app_id = {{ facebook_api.app_id|safe }};
+    window.facebook_api_version = '{{ facebook_api.version|safe }}';
+</script>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row" ng-controller="ImageRetrievalViewController">
+    <BR>&nbsp;<BR>
+    <div ng-repeat="product in products track by $index">
+        <div class="col-md-10 col-sm-12 col-sm-offset-0 col-md-offset-1">
+            <div class="row">
+                <div class="col-sm-3" style="text-align:center">
+                    <div><b><a ng-href="[[product.url_path]]">Item&nbsp;ID:&nbsp;[[product.product_id]]</a></b></div>
+                </div>
+                <div class="col-sm-6" style="text-align:center">
+                    <div><b>[[product.name]]</b></div>
+                </div>
+                <div class="col-sm-3" style="text-align:center">
+                    <div><b>MSRP&nbsp;Price:&nbsp;[[product.msrp]]<br>CO&nbsp;Price&nbsp;[[product.co_price]]</b>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="col-md-6 col-sm-8 col-sm-offset-2 col-md-offset-3">
+            <div class="container">
+              <div class="row">
+                  <div class="col-lg-3 col-sm-3 col-6" ng-repeat="image in product.images">
+                      <a ng-href="[[image]]"><img class="img-thumbnail img-responsive" ng-src="[[image]]" width="130" height="130"/></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-12 col-sm-offset-0 col-md-offset-1"><BR>&nbsp;<BR><hr></div>
+    </div>
+</div>
+<script>
+    window.productImageData = {};
+    window.productImageData.products = {{ products|safe }};
+</script>
+
+
+{% endblock %}

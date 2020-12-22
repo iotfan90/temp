@@ -1,0 +1,8 @@
+# ansible_python_interpreter=/usr/bin/python2
+
+
+[production]
+mobovidata.com
+
+[staging]
+staging.mobovidata.com

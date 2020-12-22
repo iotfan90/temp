@@ -1,0 +1,14 @@
+version: "2"
+services:
+  crate:
+    command: crate -Des.cluster.name=analytics
+    environment:
+      CRATE_HEAP_SIZE: 2g # ADJUST THIS
+    ports:
+      - '4200:4200'
+    image: crate/crate
+    restart: on-failure
+    # Uncomment this for data persistence
+    # Leave it off for dev and tests
+    #volumes:
+    #  - /data/crate:/data

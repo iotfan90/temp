@@ -1,0 +1,119 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Campaign Preview</h1>
+        <hr/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+      <div id="campaign-info">
+        <table class="table" id="table">
+                  <thead>
+                  <tr>
+                      <th>Campaign Name</th>
+                      <th>Description</th>
+                      <th>Funnel Step</th>
+                      <th>Lifecycle Messaging Stage</th>
+                      <th>Number of Pending Recipients</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for x in campaigns %}
+                    <tr class="accordion-toggle" data-toggle="collapse"
+                        data-parent="campaign-info" data-target="#{{ forloop.counter }}">
+                      <td>
+                        {{ x.campaign }}
+                      </td>
+                      <td>
+                        {{ x.description }}
+                      </td>
+                      <td>
+                        {{ x.funnel_step }}
+                      </td>
+                      <td>
+                        {{ x.lifecycle_messaging_stage }}
+                      </td>
+                      <td>
+                        {{ x.num_recipients }}
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <td colspan="5" style="border-top:none">
+                        <div id="{{ forloop.counter }}" class="collapse hiddenRow">
+                          <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                  <strong>Product Attributes:</strong><br />
+                                  <p><em>Can be copied/pasted as a default value in this campaign's product_attribute
+                                    Dynamic Variable.</em></p>
+                            </div>
+                            <div class="col-md-6">
+                              <p class="text-left" style="word-break:break-all;">{{ x.product_attributes }}</p>
+                            </div>
+                            <div class="col-md-2"></div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                  <strong>Example:</strong><br />
+                                  <p><em>Can be copied/pasted as a default value in this campaign's product_attribute
+                                    Dynamic Variable.</em></p>
+                            </div>
+                            <div class="col-md-6">
+                              <p class="text-left" style="word-break:break-all;">{{ x.product_string_example }}</p>
+                            </div>
+                            <div class="col-md-2"></div>
+                          </div>
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>Customer RIID</th>
+                                <th>Funnel Step</th>
+                                <th>Lifecycle Messaging Stage</th>
+                                <th>Lifecycle Messaging Data</th>
+                                <th>Modified Datetime</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for r in x.recipient_data %}
+                              <tr>
+                                <td>
+                                  {{ r.customer__riid }}
+                                </td>
+                                <td>
+                                  {{ r.funnel_step }}
+                                </td>
+                                <td>
+                                  {{ r.lifecycle_messaging_stage }}
+                                </td>
+                                <td>
+                                  {{ r.lifecycle_messaging_data }}
+                                </td>
+                                <td>
+                                  {{ r.modified_dt }}
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+      </div>
+    </div>
+</div>
+<script>
+    //window.lifecycle_data = {};
+    //window.lifecycle_data.campaigns = {{ campaigns|safe }};
+    //jQuery('.collapse').on('show.bs.collapse', function () {
+    //  jQuery('.collapse.in').collapse('hide');
+    //});
+</script>
+{% endblock %}

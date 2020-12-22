@@ -1,0 +1,56 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Pageviews within past 60 minutes</h1>
+        <hr/>
+        <h3>{{ count }} total page views</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+      <div id="campaign-info">
+        <table class="table table-striped" id="table">
+                  <thead>
+                  <tr>
+                      <th>Session ID</th>
+                      <th>Page</th>
+                      <th>Url Parameters</th>
+                      <th>Product Full ID</th>
+                      <th>Modified Datetime</th>
+                      <!--<th>Date</th>-->
+                      <!--<th>Shipping Address</th>-->
+                      <!--<th>Vendors</th>-->
+                      <!--<th>Grand Total</th>-->
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in pageviews %}
+                    <tr>
+                      <td>
+                        {{ row.session_id }}
+                      </td>
+                      <td>
+                        {{ row.url_path }}
+                      </td>
+                      <td>
+                        {{ row.url_parameters }}
+                      </td>
+                      <td>
+                        {{ row.product_fullid }}
+                      </td>
+                      <td>
+                        {{ row.modified_dt }}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+
+
+      </div>
+    </div>
+</div>
+
+{% endblock %}

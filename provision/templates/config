@@ -1,0 +1,17 @@
+Host bitbucket.org
+    User git
+    Hostname bitbucket.org
+    PreferredAuthentications publickey
+    IdentityFile /root/.ssh/bitbucket
+
+Host mmg-staging
+    User mobovidata
+    Hostname cellularstg.magemojo.com
+    IdentityFile /root/.ssh/mobovidata_app.key
+    ServerAliveInterval 60
+
+Host mmg-slave
+    User mobovidata
+    Hostname 162.252.106.151
+    IdentityFile /root/.ssh/mobovidata_app.key
+    ServerAliveInterval 60
