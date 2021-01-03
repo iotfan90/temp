@@ -1,5 +1,0 @@
-[run]
-include = mobovidata_dj/*
-omit = *migrations*, *tests*
-plugins =
-    django_coverage_plugin

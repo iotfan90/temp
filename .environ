@@ -1,2 +1,0 @@
-DEBUG=on
-RESPONSYS_AUTH = {'user': 'rest_user', 'password': 'A5RxfsTJM1nJ', 'auth_url':https://login5.responsys.net/rest/api/v1/auth/token'}

@@ -1,2 +1,0 @@
-""" Used to run direc
-"""

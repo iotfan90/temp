@@ -1,2 +1,0 @@
-sku,title,price,position,grams,inventory_policy,compare_at_price,fulfillment_service,inventory_management,option1,option2,option3,taxable,barcode,image_id,inventory_quantity,weight,weight_unit,old_inventory_quantity,requires_shipping,inventory_policy,available
-Sku-example,title example,18,6,100,,25,,,brown,medium,,,1234abcd,,10,11,kg,,,,
